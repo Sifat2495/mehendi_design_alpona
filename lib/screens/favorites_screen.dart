@@ -40,8 +40,8 @@ class FavoritesScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (_) => DesignViewer(
-                    designs: favorites, // Pass the entire list of designs
-                    initialIndex: index, // Pass the index of the selected design
+                    designs: favorites,
+                    initialIndex: index,
                   ),
                 ),
               );
