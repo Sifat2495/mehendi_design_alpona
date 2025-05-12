@@ -7,16 +7,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
-    <!-- Optional: Needed for Scoped Storage access in Android 10+ -->
     <application
         android:name="${applicationName}"
         android:label="Mehendi Design Alpona"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- AdMob App ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-4606622080198170~8588664359" /> <!-- Replace with your real AdMob App ID -->
+            android:value="ca-app-pub-4606622080198170~**********" /> <!-- Replace with your real AdMob App ID -->
 
         <!-- Flutter Main Activity -->
         <activity
