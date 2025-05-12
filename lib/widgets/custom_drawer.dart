@@ -4,21 +4,13 @@ import '../screens/favorites_screen.dart';
 import '../tos_about/about.dart';
 import '../tos_about/privacy_policy.dart';
 import '../tos_about/terms_of_service.dart';
-import '../utils/rewarded_ad_helper.dart';
 import 'contact_us_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CustomDrawer extends StatefulWidget {
+class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
-  @override
-  _CustomDrawerState createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
-  bool isLoading = false;
-
-  void launchRateUs() async {
+  void launchRateUs(BuildContext context) async {
     final packageName = 'com.example.mehendi_design';
     final Uri url = Uri.parse('https://play.google.com/store/apps/details?id=$packageName');
 
@@ -38,45 +30,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
     }
   }
 
-  void handleFavoritesTap() {
-    setState(() {
-      isLoading = true;  // Show the loading indicator
-    });
-
-    RewardedAdHelper.showRewardedAd(
-      context: context,
-      onRewardEarned: () {
-        setState(() {
-          isLoading = false;  // Hide the loading indicator when the ad is shown
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const FavoritesScreen()),
-        );
-      },
-      onAdFailed: () {
-        setState(() {
-          isLoading = false;  // Hide the loading indicator if the ad fails to load
-        });
-        // Optionally, you can show a message or do some other action on ad failure
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to load the ad. Please try again later.')),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.55, // or use a fixed width like 280
+      width: MediaQuery.of(context).size.width * 0.55,
       child: Drawer(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Column(
@@ -101,7 +65,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ListTile(
                 leading: const Icon(Icons.favorite),
                 title: const Text('Favorites'),
-                onTap: handleFavoritesTap,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FavoritesScreen()),
+                  );
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.description),
@@ -124,25 +93,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.star),
-                title: Text('Rate Us'),
+                leading: const Icon(Icons.star),
+                title: const Text('Rate Us'),
                 onTap: () {
-                  launchRateUs();
+                  launchRateUs(context);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.share),
-                title: Text('Share'),
+                leading: const Icon(Icons.share),
+                title: const Text('Share'),
                 onTap: () {
                   const String playStoreLink =
-                      'https://play.google.com/store/apps/details?id=com.yourcompany.yourapp'; // Replace with your actual Play Store link
+                      'https://play.google.com/store/apps/details?id=com.yourcompany.yourapp';
                   Share.share('Check out this awesome Mehendi Designs app:\n$playStoreLink');
                 },
               ),
               ListTile(
-                leading: Icon(Icons.contact_support),
-                title: Text('Contact Us'),
-                onTap: () => showContactUsDialog(context), // 👈 Show dialog
+                leading: const Icon(Icons.contact_support),
+                title: const Text('Contact Us'),
+                onTap: () => showContactUsDialog(context),
               ),
               ListTile(
                 leading: const Icon(Icons.info),
@@ -154,12 +123,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   );
                 },
               ),
-              // Show the loading indicator in the drawer if needed
-              if (isLoading)
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: LinearProgressIndicator(),
-                ),
             ],
           ),
         ),
